@@ -170,7 +170,7 @@ This script was run from this repo: https://github.com/Symantec/slack-autoarchiv
         # for folks with the free plan, sometimes there is no last message,
         # then just set last_message_datetime to epoch
         if not last_message_datetime:
-            last_bot_message_datetime = datetime.utcfromtimestamp(0)
+            last_bot_message_datetime = datetime.fromtimestamp(0)
         # return bot message time if there was no user message
         if too_old_datetime >= last_bot_message_datetime > too_old_datetime:
             return (last_bot_message_datetime, False)
