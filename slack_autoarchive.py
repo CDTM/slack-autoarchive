@@ -94,7 +94,12 @@ This script was run from this repo: https://github.com/Symantec/slack-autoarchiv
                         'Need to add bot to channel described by ' + str(payload)
                     )
                     self.join_channel(payload['channel'])
-                    return response.json()
+
+                    # It's important to retry the request after joining the
+                    # channel, and not just return the response. Otherwise the
+                    # message list will be empty and the channel will be
+                    # archived when it shouldn't be.
+                    return self.slack_api_http(api_endpoint, payload, method)
                 else:            
                     self.logger.error(
                         response.json()['error']
