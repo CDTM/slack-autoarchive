@@ -2,3 +2,4 @@ py36*
 audit.log
 whitelist.txt
 __pycache__
+path/to/venv/
