@@ -45,16 +45,18 @@ class ChannelReaper():
     def get_channel_alerts(self):
         """Get the alert message which is used to notify users in a channel of archival. """
         archive_msg = """
-This channel has had no activity for %d days. It is being auto-archived.
+This channel has had no activity for {} days. It is being auto-archived.
 If you feel this is a mistake you can <https://get.slack.help/hc/en-us/articles/201563847-Archive-a-channel#unarchive-a-channel|unarchive this channel>.
 This will bring it back at any point. In the future, you can add '%%noarchive' to your channel topic or purpose to avoid being archived.
 This script was run from this repo: https://github.com/Symantec/slack-autoarchive
-""" % self.settings.get('days_inactive')
-        alerts = {'channel_template': archive_msg}
+"""
+
         if os.path.isfile('templates.json'):
             with open('templates.json') as filecontent:
-                alerts = json.load(filecontent)
-        return alerts
+                archive_msg = json.load(filecontent)['channel_template']
+
+        archive_msg = archive_msg.format(self.settings.get('days_inactive'))
+        return {'channel_template': archive_msg}
 
     # pylint: disable=too-many-arguments
     def slack_api_http(
@@ -236,14 +238,13 @@ This script was run from this repo: https://github.com/Symantec/slack-autoarchiv
                             payload=payload,
                             method='POST')
 
-    def archive_channel(self, channel, alert):
+    def archive_channel(self, channel, channel_message):
         """ Archive a channel, and send alert to slack admins. """
         api_endpoint = 'conversations.archive'
         stdout_message = 'Archiving channel... %s' % channel['name']
         self.logger.info(stdout_message)
 
         if not self.settings.get('dry_run'):
-            channel_message = alert.format(self.settings.get('days_inactive'))
             self.send_channel_message(channel['id'], channel_message)
             payload = {'channel': channel['id']}
             self.slack_api_http(api_endpoint=api_endpoint, payload=payload, method='POST')
