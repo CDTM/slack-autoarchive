@@ -229,8 +229,6 @@ This script was run from this repo: https://github.com/Symantec/slack-autoarchiv
         """ Send a message to a channel or user. """
         payload = {
             'channel': channel_id,
-            'username': 'channel_reaper',
-            'icon_emoji': ':ghost:',
             'text': message
         }
         api_endpoint = 'chat.postMessage'
