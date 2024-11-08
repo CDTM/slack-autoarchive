@@ -1,5 +1,11 @@
 # Autoarchive unused slack channels
 
+This is a fork of [Symantec/slack-autoarchive](https://github.com/Symantec/slack-autoarchive). We forked the repository and made the following changes:
+
+* Migrated to the new Slack API (using the changes from from https://github.com/Symantec/slack-autoarchive/pull/51)
+* Improved the `README.md`
+* Other small improvements & fixes (see [ce84d1](https://github.com/CDTM/slack-autoarchive/commit/ce84d1baf96ea2e6e618adf8819fa39c0d7fea81), [8209175](https://github.com/CDTM/slack-autoarchive/commit/8209175827478a7042ad94ec02eb45c8757593d1), [914b0cc](https://github.com/CDTM/slack-autoarchive/commit/914b0cc7404beb7753bdbb33ea38aa6ec174dd4d)).
+
 ## Requirements
 
 - python3
